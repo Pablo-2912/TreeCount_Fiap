@@ -1,0 +1,15 @@
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\bin\Debug\net8.0\TreeCount.Common.deps.json
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\bin\Debug\net8.0\TreeCount.Common.dll
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\bin\Debug\net8.0\TreeCount.Common.pdb
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\bin\Debug\net8.0\TreeCount.Domain.dll
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\bin\Debug\net8.0\TreeCount.Domain.pdb
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.csproj.AssemblyReference.cache
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.AssemblyInfoInputs.cache
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.AssemblyInfo.cs
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.csproj.CoreCompileInputs.cache
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCoun.1988C4C9.Up2Date
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.dll
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\refint\TreeCount.Common.dll
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.pdb
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\ref\TreeCount.Common.dll

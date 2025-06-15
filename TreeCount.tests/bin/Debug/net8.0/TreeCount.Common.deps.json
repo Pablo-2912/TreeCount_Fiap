@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "TreeCount.Common/1.0.0": {
+        "dependencies": {
+          "TreeCount.Domain": "1.0.0"
+        },
+        "runtime": {
+          "TreeCount.Common.dll": {}
+        }
+      },
+      "TreeCount.Domain/1.0.0": {
+        "runtime": {
+          "TreeCount.Domain.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TreeCount.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TreeCount.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
