@@ -480,3 +480,4 @@ C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.tests\bin\Debug
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.tests\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.tests\obj\Debug\net8.0\MvcTestingAppManifest.json
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.tests\obj\Debug\net8.0\TreeCount.tests.sourcelink.json

@@ -29,11 +29,11 @@ namespace TreeCount.Common.Helpers
 
         public static string ToStringRole(UserRoles role) => role switch
         {
-            UserRoles.SuperAdmin => "superadmin",
+            UserRoles.SuperAdmin => "SUPER_ADMIN",
             //UserRoles.CompanyAdmin => "companyadmin",
             //UserRoles.CompanyUser => "companyuser",
-            UserRoles.RegularUser => "regularuser",
-            _ => "regularuser"
+            UserRoles.RegularUser => "REGULAR_USER",
+            _ => "REGULAR_USER"
         };
 
         public static UserRoles FromLabel(string label) => label.ToLowerInvariant() switch

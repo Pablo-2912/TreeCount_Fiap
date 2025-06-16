@@ -58,16 +58,16 @@ public class TreeControllerTests
         var listDto = new ListTreeDTO { Page = 1, PerPage = 10 };
 
         var treeList = new List<TreeListAllResponseViewModel>
+    {
+        new TreeListAllResponseViewModel
         {
-            new TreeListAllResponseViewModel
+            Status = TreeGetStatus.Success,
+            Itens = new List<TreeModel>
             {
-                Status = TreeGetStatus.Success,
-                Itens = new List<TreeModel>
-                {
-                    new TreeModel { NomePopular = "Ipê", NomeCientifico = "Handroanthus" }
-                }
+                new TreeModel { NomePopular = "Ipê", NomeCientifico = "Handroanthus" }
             }
-        };
+        }
+    };
 
         _treeServiceMock
             .Setup(s => s.ListPaginatedAsync<ListTreeDTO, TreeListAllResponseViewModel>(listDto))
@@ -76,19 +76,20 @@ public class TreeControllerTests
         var result = await _controller.ListAllAsync(listDto);
 
         var okResult = Assert.IsType<OkObjectResult>(result);
-        var returned = Assert.IsAssignableFrom<IEnumerable<TreeListAllResponseViewModel>>(okResult.Value);
+        var returned = Assert.IsType<TreeListAllResponseViewModel>(okResult.Value);
 
-        Assert.Single(returned);
-        Assert.Equal(TreeGetStatus.Success, returned.First().Status);
+        Assert.Equal(TreeGetStatus.Success, returned.Status);
+        Assert.NotNull(returned.Itens);
+        Assert.Single(returned.Itens);
+        Assert.Equal("Ipê", returned.Itens.First().NomePopular);
     }
+
 
     [Fact]
     public async Task GetByIdAsync_ReturnsOk_WhenSuccess()
     {
         int treeId = 10;
-        var treeByIdResponse = new List<TreeGetByIdResponseViewModel>
-    {
-        new TreeGetByIdResponseViewModel
+        var treeByIdResponse = new TreeGetByIdResponseViewModel
         {
             Status = TreeGetStatus.Success,
             Item = new TreeModel
@@ -96,22 +97,21 @@ public class TreeControllerTests
                 NomePopular = "Ipê",
                 NomeCientifico = "Handroanthus"
             }
-        }
-    };
+        };
 
         _treeServiceMock
-            .Setup(s => s.ListPaginatedAsync<int, TreeGetByIdResponseViewModel>(treeId))
+            .Setup(s => s.GetByIdAsync<GetTreeByIdDTO, TreeGetByIdResponseViewModel>(
+                It.Is<GetTreeByIdDTO>(dto => dto.Id == treeId)))
             .ReturnsAsync(treeByIdResponse);
 
         var result = await _controller.GetByIdAsync(treeId);
 
         var okResult = Assert.IsType<OkObjectResult>(result);
-        var returned = Assert.IsAssignableFrom<IEnumerable<TreeGetByIdResponseViewModel>>(okResult.Value);
-
-        Assert.Single(returned);
-        Assert.Equal(TreeGetStatus.Success, returned.First().Status);
-        Assert.Equal("Ipê", returned.First().Item.NomePopular);
+        var returned = Assert.IsType<TreeGetByIdResponseViewModel>(okResult.Value);
+        Assert.Equal(TreeGetStatus.Success, returned.Status);
+        Assert.Equal("Ipê", returned.Item.NomePopular);
     }
+
 
     [Fact]
     public async Task DeleteAsync_ReturnsNoContent_WhenSuccess()

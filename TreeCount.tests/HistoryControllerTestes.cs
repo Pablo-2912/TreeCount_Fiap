@@ -46,7 +46,16 @@ public class HistoryControllerTests
     public async Task CreateAsync_ReturnsCreated_WhenValidData()
     {
         // Arrange
-        var dto = new CreateHistoryDTO { Latitude = 1, Longitude = 2 };
+        var dto = new CreateHistoryDTO
+        {
+            Latitude = 1,
+            Longitude = 2,
+            PlantingRadius = 5,
+            Quantity = 10,
+            TreeId = 1,
+            UserId = "any" // será sobrescrito no controller
+        };
+
         var user = new UserModel { Id = "123" };
         _userManagerMock.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(user);
 
@@ -57,8 +66,10 @@ public class HistoryControllerTests
             Message = "Created"
         };
         _historyServiceMock
-            .Setup(s => s.CreateAsync<CreateHistoryDTO, HistoryCreateResponseViewModel>(It.IsAny<CreateHistoryDTO>()))
+            .Setup(s => s.CreateAsync(It.IsAny<CreateHistoryDTO>()))
             .ReturnsAsync(response);
+
+        _controller.ModelState.Clear();  // Simula ModelState válido
 
         // Act
         var result = await _controller.CreateAsync(dto);
@@ -69,6 +80,7 @@ public class HistoryControllerTests
         Assert.Equal(HistoryCreateStatus.Success, value.Status);
         Assert.Equal("1", value.Data.Id);
     }
+
 
     [Fact]
     public async Task CreateAsync_ReturnsUnauthorized_WhenUserNotFound()
@@ -131,12 +143,11 @@ public class HistoryControllerTests
         Assert.Equal(HistoryGetStatus.Success, value.Status);
         Assert.Equal(id, value.Data.Id);
     }
-
     [Fact]
     public async Task GetByUserIdPaginatedAsync_ReturnsOk_WhenSuccess()
     {
         // Arrange
-        var user = new UserModel { Id = "123" };
+        var user = new UserModel { Id = "user123" };
 
         var claims = new List<Claim>
     {
@@ -155,11 +166,21 @@ public class HistoryControllerTests
 
         var dtoList = new List<HistoryResponseDTO>
     {
-        new HistoryResponseDTO { Id = "1", Latitude = 1, Longitude = 1 }
+        new HistoryResponseDTO
+        {
+            Id = "1",
+            Latitude = -23.55052,
+            Longitude = -46.633308,
+            PlantingRadius = 5.0,
+            Quantity = 10,
+            TreeId = "tree123",
+            UserId = user.Id,
+            CreatedAt = DateTime.UtcNow
+        }
     };
 
-    _historyServiceMock
-        .Setup(s => s.ListPaginatedAsync<GetByUserIdPaginatedDTO, HistoryResponseDTO>(It.IsAny<GetByUserIdPaginatedDTO>()))
+        _historyServiceMock
+            .Setup(s => s.ListPaginatedAsync<GetByUserIdPaginatedDTO, HistoryResponseDTO>(It.IsAny<GetByUserIdPaginatedDTO>()))
             .ReturnsAsync(dtoList);
 
         // Act
@@ -169,6 +190,16 @@ public class HistoryControllerTests
         var okResult = Assert.IsType<OkObjectResult>(result);
         var value = Assert.IsAssignableFrom<IEnumerable<HistoryResponseDTO>>(okResult.Value);
         Assert.Single(value);
+
+        var history = value.First();
+        Assert.Equal("1", history.Id);
+        Assert.Equal(-23.55052, history.Latitude);
+        Assert.Equal(-46.633308, history.Longitude);
+        Assert.Equal(5.0, history.PlantingRadius);
+        Assert.Equal(10, history.Quantity);
+        Assert.Equal("tree123", history.TreeId);
+        Assert.Equal("user123", history.UserId);
+        Assert.True(history.CreatedAt <= DateTime.UtcNow);
     }
 
 

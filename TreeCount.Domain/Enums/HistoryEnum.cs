@@ -13,6 +13,7 @@ namespace TreeCount.Domain.Enums
         AlreadyExists,
         Unauthorized,
         DatabaseError,
+        InvalidTree,
         Error
     }
 

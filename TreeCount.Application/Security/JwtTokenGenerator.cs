@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,12 @@ namespace TreeCount.Application.Security
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly IConfiguration _config;
+        private readonly UserManager<UserModel> _userManager;
 
-        public JwtTokenGenerator(IConfiguration config)
+        public JwtTokenGenerator(IConfiguration config, UserManager<UserModel> userManager)
         {
             _config = config;
+            _userManager = userManager;
         }
 
         public string GenerateToken(UserModel user)
@@ -30,16 +33,23 @@ namespace TreeCount.Application.Security
             var expirationHoursStr = _config["Jwt:ExpireHours"];
             var expirationHours = string.IsNullOrEmpty(expirationHoursStr) ? 2 : int.Parse(expirationHoursStr);
 
+            // Busca as roles do usuário
+            var roles = _userManager.GetRolesAsync(user).Result;
+
             // Define os claims que irão no token
             var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.NameIdentifier, user.Id),
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim("name", user.Name),
-    };
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("name", user.Name),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
 
-            // Adiciona roles se necessário futuramente
-            // claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            // Adiciona as roles como claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             // Cria a chave e credenciais de assinatura
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
@@ -56,6 +66,6 @@ namespace TreeCount.Application.Security
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
+
 }

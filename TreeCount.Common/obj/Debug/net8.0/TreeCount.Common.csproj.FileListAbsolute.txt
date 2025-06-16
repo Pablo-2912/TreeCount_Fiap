@@ -13,3 +13,4 @@ C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debu
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\refint\TreeCount.Common.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.pdb
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\ref\TreeCount.Common.dll
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Common\obj\Debug\net8.0\TreeCount.Common.sourcelink.json

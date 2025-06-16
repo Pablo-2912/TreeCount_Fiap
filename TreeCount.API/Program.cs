@@ -59,6 +59,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<ITreeService, TreeService>();
+builder.Services.AddScoped<IHistoryService, HistoryService>();
 
 // Registro das DI de Repository
 builder.Services.AddScoped<IUserRepository<UserModel>, UserRepository>();

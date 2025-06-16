@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TreeCount.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6cec1edddd8d43c4fe1f7c48ee433750df275c0")]
 [assembly: System.Reflection.AssemblyProductAttribute("TreeCount.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TreeCount.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

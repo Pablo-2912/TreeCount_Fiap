@@ -48,9 +48,11 @@ namespace TreeCount.API.Controllers
         [Route("")]
         public async Task<IActionResult> ListAllAsync([FromQuery] ListTreeDTO dto)
         {
-            var result = await _treeService.ListPaginatedAsync<ListTreeDTO, TreeListAllResponseViewModel>(dto);
+            var resultE = await _treeService.ListPaginatedAsync<ListTreeDTO, TreeListAllResponseViewModel>(dto);
 
-            var firstStatus = result.FirstOrDefault()?.Status ?? TreeGetStatus.Error;
+            var result = resultE?.First();
+            var firstStatus = result?.Status ?? TreeGetStatus.Error;
+            var firstItem = result?.Itens?.FirstOrDefault();
 
             return firstStatus switch
             {
@@ -68,11 +70,13 @@ namespace TreeCount.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromQuery] int id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
-            var result = await _treeService.ListPaginatedAsync<int, TreeGetByIdResponseViewModel>(id);
 
-            var firstStatus = result.FirstOrDefault()?.Status ?? TreeGetStatus.Error;
+            var model = new GetTreeByIdDTO() { Id = id };
+            var result = await _treeService.GetByIdAsync<GetTreeByIdDTO, TreeGetByIdResponseViewModel>(model);
+
+            var firstStatus = result?.Status ?? TreeGetStatus.Error;
 
             return firstStatus switch
             {
@@ -88,7 +92,7 @@ namespace TreeCount.API.Controllers
             };
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Authorize(Roles = "SUPER_ADMIN")]
         [Route("delete/{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)

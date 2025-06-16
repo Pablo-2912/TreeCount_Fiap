@@ -24,7 +24,7 @@ namespace TreeCount.Application.DTOs
         public int Quantity { get; set; }
 
         [Required]
-        public string TreeId { get; set; }
+        public long TreeId { get; set; }
 
         [Required]
         public string UserId { get; set; }

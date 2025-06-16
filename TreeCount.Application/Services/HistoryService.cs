@@ -17,67 +17,67 @@ using IHistoryRepository = TreeCount.Domain.Interfaces.Repository.IHistoryReposi
 
 namespace TreeCount.Application.Services
 {
-    internal class HistoryService : ServiceBase<HistoryModel>, IHistoryService
+    public class HistoryService : ServiceBase<HistoryModel>, IHistoryService
     {
-
         private readonly IHistoryRepository _repository;
-        public HistoryService(IRepositoryBase<HistoryModel> entityRepository, IHistoryRepository repository) : base(entityRepository)
+
+        public HistoryService(IHistoryRepository repository) : base(repository)
         {
             _repository = repository;
         }
 
-        public async Task<HistoryGetByIdResponseViewModel> GetByUserId(GetByUserIdPaginatedDTO dto)
-        {
-            try
-            {
-                var histories = await _repository.GetByUserIdPaginated(dto.UserId, dto.Page, dto.PageSize);
+        //public new async Task<HistoryGetByIdResponseViewModel> GetByUserId(GetByUserIdPaginatedDTO dto)
+        //{
+        //    try
+        //    {
+        //        var histories = await _repository.GetByUserIdPaginated(dto.UserId, dto.Page, dto.PageSize);
 
-                if (histories == null || !histories.Any())
-                {
-                    return new HistoryGetByIdResponseViewModel
-                    {
-                        Status = HistoryGetStatus.NotFound,
-                        Message = "No history records found for the specified user.",
-                        Data = null
-                    };
-                }
+        //        if (histories == null || !histories.Any())
+        //        {
+        //            return new HistoryGetByIdResponseViewModel
+        //            {
+        //                Status = HistoryGetStatus.NotFound,
+        //                Message = "No history records found for the specified user.",
+        //                Data = null
+        //            };
+        //        }
 
-                // Caso você esteja retornando um único item (o mais recente, por exemplo), você pode fazer:
-                var history = histories.First(); // ou .FirstOrDefault(), se necessário
+        //        // Caso você esteja retornando um único item (o mais recente, por exemplo), você pode fazer:
+        //        var history = histories.First(); // ou .FirstOrDefault(), se necessário
 
-                var dtoResult = new HistoryResponseDTO
-                {
-                    Id = history.Id.ToString(),
-                    Latitude = history.Latitude,
-                    Longitude = history.Longitude,
-                    PlantingRadius = history.PlantingRadius,
-                    Quantity = history.Quantity,
-                    TreeId = history.TreeId,
-                    UserId = history.UserId,
-                    CreatedAt = history.CreateAt
-                };
+        //        var dtoResult = new HistoryResponseDTO
+        //        {
+        //            Id = history.Id.ToString(),
+        //            Latitude = history.Latitude,
+        //            Longitude = history.Longitude,
+        //            PlantingRadius = history.PlantingRadius,
+        //            Quantity = history.Quantity,
+        //            TreeId = history.TreeId.ToString(),
+        //            UserId = history.UserId,
+        //            CreatedAt = history.CreateAt
+        //        };
 
-                return new HistoryGetByIdResponseViewModel
-                {
-                    Status = HistoryGetStatus.Success,
-                    Message = "History retrieved successfully.",
-                    Data = dtoResult
-                };
-            }
-            catch (Exception ex)
-            {
-                // Log ex se necessário
+        //        return new HistoryGetByIdResponseViewModel
+        //        {
+        //            Status = HistoryGetStatus.Success,
+        //            Message = "History retrieved successfully.",
+        //            Data = dtoResult
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log ex se necessário
 
-                return new HistoryGetByIdResponseViewModel
-                {
-                    Status = HistoryGetStatus.Error,
-                    Message = "An error occurred while retrieving the history.",
-                    Data = null
-                };
-            }
-        }
+        //        return new HistoryGetByIdResponseViewModel
+        //        {
+        //            Status = HistoryGetStatus.Error,
+        //            Message = "An error occurred while retrieving the history.",
+        //            Data = null
+        //        };
+        //    }
+        //}
 
-        public async Task<HistoryListPaginatedResponseViewModel> ListByUserIdAsync(GetByUserIdPaginatedDTO dto)
+        public new async Task<HistoryListPaginatedResponseViewModel> ListByUserIdAsync(GetByUserIdPaginatedDTO dto)
         {
             if (dto == null) throw new ArgumentNullException(nameof(dto));
 
@@ -110,7 +110,7 @@ namespace TreeCount.Application.Services
                     Longitude = entity.Longitude,
                     PlantingRadius = entity.PlantingRadius,
                     Quantity = entity.Quantity,
-                    TreeId = entity.TreeId,
+                    TreeId = entity.TreeId.ToString(),
                     UserId = entity.UserId,
                     CreatedAt = entity.CreateAt
                 });
@@ -152,7 +152,62 @@ namespace TreeCount.Application.Services
             }
         }
 
+        public new async Task<HistoryCreateResponseViewModel> CreateAsync(CreateHistoryDTO dto)
+        {
+            if (dto == null)
+                throw new ArgumentNullException(nameof(dto));
 
+            try
+            {
+                var model = new HistoryModel
+                {
+                    Latitude = dto.Latitude,
+                    Longitude = dto.Longitude,
+                    PlantingRadius = dto.PlantingRadius,
+                    Quantity = dto.Quantity,
+                    TreeId = dto.TreeId,
+                    UserId = dto.UserId
+                };
+
+                model.OnCreate();
+
+                var result = await _repository.CreateAsync(model);
+
+                if (result == null)
+                {
+                    return new HistoryCreateResponseViewModel
+                    {
+                        Status = HistoryCreateStatus.InvalidTree,
+                        Message = "Árvore não encontrada."
+                    };
+                }
+
+                return new HistoryCreateResponseViewModel
+                {
+                    Status = HistoryCreateStatus.Success,
+                    Message = "Histórico criado com sucesso.",
+                    Data = new HistoryResponseDTO
+                    {
+                        Id = result.Id.ToString(),
+                        Latitude = result.Latitude,
+                        Longitude = result.Longitude,
+                        PlantingRadius = result.PlantingRadius,
+                        Quantity = result.Quantity,
+                        TreeId = result.TreeId.ToString(),
+                        UserId = result.UserId,
+                        CreatedAt = result.CreateAt
+                    }
+                };
+            }
+            catch
+            {
+                return new HistoryCreateResponseViewModel
+                {
+                    Status = HistoryCreateStatus.Error,
+                    Message = "Erro ao criar o histórico."
+                };
+            }
+        }
 
         protected override object ExtractId<D>(D dto)
         {
@@ -188,7 +243,7 @@ namespace TreeCount.Application.Services
                     Longitude = update.Longitude,
                     PlantingRadius = update.PlantingRadius,
                     Quantity = update.Quantity,
-                    TreeId = update.TreeId,
+                    TreeId = Convert.ToInt64(update.TreeId),
                     UserId = update.UserId
                 },
                 DeleteHistoryDTO delete => new HistoryModel
@@ -197,6 +252,7 @@ namespace TreeCount.Application.Services
                 },
                 _ => throw new InvalidCastException("DTO não suportado para mapeamento de entidade.")
             };
+
         }
 
         protected override VM MapToViewModel<VM>(HistoryModel model)
@@ -205,51 +261,56 @@ namespace TreeCount.Application.Services
             {
                 nameof(HistoryCreateResponseViewModel) => new HistoryCreateResponseViewModel
                 {
-                    Status = HistoryCreateStatus.Success,
-                    Message = "Histórico criado com sucesso.",
-                    Data = new HistoryResponseDTO
+                    Status = model != null ? HistoryCreateStatus.Success : HistoryCreateStatus.Error,
+                    Message = model != null ? "Histórico criado com sucesso." : "Histórico não foi criado.",
+                    Data = model != null ? new HistoryResponseDTO
                     {
                         Id = model.Id.ToString(),
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
                         PlantingRadius = model.PlantingRadius,
                         Quantity = model.Quantity,
-                        TreeId = model.TreeId,
+                        TreeId = model.TreeId.ToString(),
                         UserId = model.UserId,
                         CreatedAt = model.CreateAt
-                    }
+                    } : null
                 },
+
                 nameof(HistoryUpdateResponseViewModel) => new HistoryUpdateResponseViewModel
                 {
-                    Status = HistoryUpdateStatus.Success,
-                    Message = "Histórico atualizado com sucesso."
+                    Status = model != null ? HistoryUpdateStatus.Success : HistoryUpdateStatus.Error,
+                    Message = model != null ? "Histórico atualizado com sucesso." : "Histórico não foi atualizado."
                 },
+
                 nameof(HistoryDeleteResponseViewModel) => new HistoryDeleteResponseViewModel
                 {
-                    Status = HistoryDeleteStatus.Success,
-                    Message = "Histórico deletado com sucesso."
+                    Status = model != null ? HistoryDeleteStatus.Success : HistoryDeleteStatus.Error,
+                    Message = model != null ? "Histórico deletado com sucesso." : "Histórico não foi deletado."
                 },
+
                 nameof(HistoryGetByIdResponseViewModel) => new HistoryGetByIdResponseViewModel
                 {
-                    Status = HistoryGetStatus.Success,
-                    Message = "Histórico encontrado com sucesso.",
-                    Data = new HistoryResponseDTO
+                    Status = model != null ? HistoryGetStatus.Success : HistoryGetStatus.NotFound,
+                    Message = model != null ? "Histórico encontrado com sucesso." : "Histórico não encontrado.",
+                    Data = model != null ? new HistoryResponseDTO
                     {
                         Id = model.Id.ToString(),
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
                         PlantingRadius = model.PlantingRadius,
                         Quantity = model.Quantity,
-                        TreeId = model.TreeId,
+                        TreeId = model.TreeId.ToString(),
                         UserId = model.UserId,
                         CreatedAt = model.CreateAt
-                    }
+                    } : null
                 },
-                _ => throw new InvalidCastException("ViewModel não suportada.")
+
+                _ => Activator.CreateInstance<VM>()
             };
 
             return (VM)result;
         }
+
 
 
     }

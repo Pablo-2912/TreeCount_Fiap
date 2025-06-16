@@ -59,9 +59,17 @@ namespace TreeCount.Application.Services
                 },
                 nameof(TreeDeleteResponseViewModel) => new TreeDeleteResponseViewModel
                 {
-                    Status = TreeDeleteStatus.Success,
-                    //TreeId = model.Id,
-                    //NomePopular = model.NomePopular
+                    Status = TreeDeleteStatus.Success
+                },
+                nameof(TreeListAllResponseViewModel) => new TreeListAllResponseViewModel
+                {
+                    Status = TreeGetStatus.Success,
+                    Itens = new List<TreeModel> { model }
+                },
+                nameof(TreeGetByIdResponseViewModel) => new TreeGetByIdResponseViewModel
+                {
+                    Status = TreeGetStatus.Success,
+                    Item = model
                 },
                 _ => throw new InvalidCastException("ViewModel não suportada.")
             };

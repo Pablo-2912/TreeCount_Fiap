@@ -224,7 +224,7 @@
         }
       }
     },
-    "/History/user/{userId}": {
+    "/History/user": {
       "get": {
         "tags": [
           "History"
@@ -232,48 +232,7 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
             "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/History/tree/{treeId}": {
-      "get": {
-        "tags": [
-          "History"
-        ],
-        "parameters": [
-          {
-            "name": "treeId",
-            "in": "path",
-            "required": true,
             "schema": {
               "type": "string"
             }
@@ -414,18 +373,11 @@
         "parameters": [
           {
             "name": "id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -437,7 +389,7 @@
       }
     },
     "/Tree/delete/{id}": {
-      "post": {
+      "delete": {
         "tags": [
           "Tree"
         ],
@@ -490,8 +442,8 @@
             "format": "int32"
           },
           "treeId": {
-            "minLength": 1,
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "userId": {
             "minLength": 1,

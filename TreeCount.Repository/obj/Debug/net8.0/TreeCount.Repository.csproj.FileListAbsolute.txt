@@ -17,3 +17,4 @@ C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Repository\obj\
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Repository\obj\Debug\net8.0\ref\TreeCount.Repository.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Repository\bin\Debug\net8.0\TreeCount.Repository.runtimeconfig.json
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Repository\obj\Debug\net8.0\TreeCount.Repository.genruntimeconfig.cache
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Repository\obj\Debug\net8.0\TreeCount.Repository.sourcelink.json

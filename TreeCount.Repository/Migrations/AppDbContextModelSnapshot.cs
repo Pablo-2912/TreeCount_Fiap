@@ -155,6 +155,110 @@ namespace TreeCount.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("TreeCount.Domain.Models.HistoryModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("float")
+                        .HasColumnName("latitude");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("float")
+                        .HasColumnName("longitude");
+
+                    b.Property<double>("PlantingRadius")
+                        .HasColumnType("float")
+                        .HasColumnName("planting_radius");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int")
+                        .HasColumnName("quantity");
+
+                    b.Property<long>("TreeId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("tree_id");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_at");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(36)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TreeId");
+
+                    b.ToTable("History");
+                });
+
+            modelBuilder.Entity("TreeCount.Domain.Models.TreeModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_at");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("descricao");
+
+                    b.Property<string>("FormulaCarbono")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("formula_carbono");
+
+                    b.Property<string>("NomeCientifico")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)")
+                        .HasColumnName("nome_cientifico");
+
+                    b.Property<string>("NomePopular")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("nome_popular");
+
+                    b.Property<string>("Tipo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("tipo");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_at");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tree");
+                });
+
             modelBuilder.Entity("TreeCount.Repository.Identity.UserModel", b =>
                 {
                     b.Property<string>("Id")
@@ -167,11 +271,7 @@ namespace TreeCount.Repository.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataAlteracao")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("Update_at");
-
-                    b.Property<DateTime>("DataCriacao")
+                    b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("Create_at");
 
@@ -220,6 +320,10 @@ namespace TreeCount.Repository.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_at");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -287,6 +391,17 @@ namespace TreeCount.Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TreeCount.Domain.Models.HistoryModel", b =>
+                {
+                    b.HasOne("TreeCount.Domain.Models.TreeModel", "Tree")
+                        .WithMany()
+                        .HasForeignKey("TreeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tree");
                 });
 #pragma warning restore 612, 618
         }

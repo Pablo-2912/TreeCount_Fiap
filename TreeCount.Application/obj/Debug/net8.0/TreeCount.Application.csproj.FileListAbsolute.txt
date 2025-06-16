@@ -17,3 +17,4 @@ C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Application\obj
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Application\obj\Debug\net8.0\ref\TreeCount.Application.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Application\bin\Debug\net8.0\TreeCount.Repository.dll
 C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Application\bin\Debug\net8.0\TreeCount.Repository.pdb
+C:\Users\soap\source\Workspaces\Clinica\TreeCount_Fiap\TreeCount.Application\obj\Debug\net8.0\TreeCount.Application.sourcelink.json

@@ -27,9 +27,9 @@ namespace TreeCount.Domain.Models
         [Required]
         public int Quantity { get; set; }
 
-        [Column("tree_id", TypeName = "varchar(36)")]
+        [Column("tree_id")]
         [Required]
-        public string TreeId { get; set; }
+        public long TreeId { get; set; }
 
         [ForeignKey("TreeId")]
         public virtual TreeModel Tree { get; set; }

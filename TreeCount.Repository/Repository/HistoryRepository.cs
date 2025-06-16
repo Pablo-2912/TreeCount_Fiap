@@ -31,5 +31,18 @@ namespace TreeCount.Repository.Repository
                 .Take(pageSize)
                 .ToListAsync();
         }
+        public override async Task<HistoryModel> CreateAsync(HistoryModel model)
+        {
+            // Verifica se a Tree existe no banco
+            bool treeExists = await _context.Tree.AnyAsync(t => t.Id == model.TreeId);
+
+            if (!treeExists)
+            {
+                return null;
+            }
+
+            // Se passou na validação, chama o base para salvar normalmente
+            return await base.CreateAsync(model);
+        }
     }
 }

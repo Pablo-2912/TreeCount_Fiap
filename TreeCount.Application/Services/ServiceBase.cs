@@ -66,7 +66,7 @@ namespace TreeCount.Application.Services
         public virtual async Task<VM> GetByIdAsync<D, VM>(D model)
         {
             var id = ExtractId(model);
-            var entity = await _entityRepository.GetByIdAsync(id);
+            var entity = await _entityRepository.GetByIdAsync(Convert.ToInt64(id));
             return MapToViewModel<VM>(entity);
         }
 

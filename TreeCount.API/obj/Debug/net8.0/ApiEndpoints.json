@@ -138,34 +138,8 @@
   },
   {
     "ContainingType": "TreeCount.API.Controllers.HistoryController",
-    "Method": "GetByTreeIdPaginatedAsync",
-    "RelativePath": "History/tree/{treeId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "treeId",
-        "Type": "System.String",
-        "IsRequired": true
-      },
-      {
-        "Name": "page",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "pageSize",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "TreeCount.API.Controllers.HistoryController",
     "Method": "GetByUserIdPaginatedAsync",
-    "RelativePath": "History/user/{userId}",
+    "RelativePath": "History/user",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -173,7 +147,7 @@
       {
         "Name": "userId",
         "Type": "System.String",
-        "IsRequired": true
+        "IsRequired": false
       },
       {
         "Name": "page",
@@ -236,11 +210,6 @@
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
         "IsRequired": true
       }
     ],
@@ -266,7 +235,7 @@
     "ContainingType": "TreeCount.API.Controllers.TreeController",
     "Method": "DeleteAsync",
     "RelativePath": "Tree/delete/{id}",
-    "HttpMethod": "POST",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

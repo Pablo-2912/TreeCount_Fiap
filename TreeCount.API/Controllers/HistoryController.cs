@@ -49,7 +49,7 @@ namespace TreeCount.API.Controllers
 
             dto.UserId = user.Id;
 
-            var result = await _historyService.CreateAsync<CreateHistoryDTO, HistoryCreateResponseViewModel>(dto);
+            var result = await _historyService.CreateAsync(dto);
 
             if (result == null)
             {
@@ -143,15 +143,15 @@ namespace TreeCount.API.Controllers
                 PageSize = pageSize
             };
 
-            var result = await _historyService.ListPaginatedAsync<GetByUserIdPaginatedDTO, IEnumerable<HistoryResponseDTO>>(dto);
+            var result = await _historyService.ListByUserIdAsync(dto);
 
-            if (result != null && result.Any())
+            if (result != null && result.Data.Any())
                 return Ok(result);
 
             return NotFound("Nenhum histórico encontrado para o usuário.");
         }
 
-        [Authorize(Roles = "")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpGet]
         public async Task<IActionResult> GetPaginatedAsync([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
